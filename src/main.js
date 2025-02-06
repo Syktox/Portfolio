@@ -3,11 +3,9 @@ import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-
 const scene = new THREE.Scene();
-
 const camera = new THREE.PerspectiveCamera(
-                    75, 
+                    90, 
                     window.innerWidth / window.innerHeight,
                     0.1, 
                     1000);
@@ -19,26 +17,20 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize( window.innerWidth, window.innerHeight );
 
-camera.position.setZ(30);
-
+camera.position.z = 30;
 renderer.render (scene, camera);
 
-const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 );
+const geometry = new THREE.TorusGeometry( 13, 3, 13, 333 );
 const material = new THREE.MeshStandardMaterial({color: 0xFF6347, wireframe: true});
 const torus = new THREE.Mesh( geometry, material );
 
 scene.add(torus);
 
-const pointLight = new THREE.PointLight(0xffffff);
+
 const ambientLight = new THREE.AmbientLight(0xffffff);
+const gridHelper = new THREE.GridHelper(50, 50);  // to be removed
 
-pointLight.position.set(5,5,5);
-
-scene.add(pointLight, ambientLight);
-
-const lightHelper = new THREE.PointLightHelper(pointLight);
-const gridHelper = new THREE.GridHelper(50, 50);
-scene.add(lightHelper, gridHelper);
+scene.add(ambientLight, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -64,13 +56,12 @@ const one = new THREE.Mesh(
 );
 
 scene.add(one);
-one.position.x = 30;
 
 function moveCamera() {
   const t = document.body.getBoundingClientRect().top;
-  one.rotation.x += 0.05;
-  one.rotation.z += 0.05;
-  one.rotation.y += 0.075;
+  one.rotation.x += 0.15;
+  one.rotation.z += 0.15;
+  one.rotation.y += 0.175;
 
   camera.position.z = t * -0.01;
   camera.position.x = t * -0.0002;
