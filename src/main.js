@@ -34,15 +34,23 @@ scene.add(ambientLight, gridHelper);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+const line_material = new THREE.LineBasicMaterial( { color: 0xFFFFFF });
+
+const points = [];
+
 function addStar() {
   const geometry = new THREE.SphereGeometry(0.25,24,24);
   const material = new THREE.MeshStandardMaterial( {color: 0xffffff });
   const star = new THREE.Mesh (geometry, material);
   const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread( 100));
-
+  points.push( new THREE.Vector3(x, y,z ) );
   star.position.set(x,y,z);
+  const g = new THREE.BufferGeometry().setFromPoints(points);
+  const line = new THREE.Line (g , line_material);
+  scene.add(line);
   scene.add(star);
 }
+
 
 Array(200).fill().forEach(addStar);
 
